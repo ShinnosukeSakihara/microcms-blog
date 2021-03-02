@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build && yarn run sitemap",
-    "start": "next start",
+    "start": "next start -p $PORT",
     "lint": "eslint --fix --ext \".ts,.tsx\" --ignore-path .gitignore .",
     "sitemap": "node ./scripts/generate-sitemap.js",
     "test": "jest"
