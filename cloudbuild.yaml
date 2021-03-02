@@ -1,7 +1,22 @@
 steps:
+  - name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      echo 'NEXT_PUBLIC_APP_URL="${_NEXT_PUBLIC_APP_URL}"' > .env
+      echo 'NEXT_PUBLIC_APP_NAME="${_NEXT_PUBLIC_APP_NAME}"' >> .env
+      echo 'NEXT_PUBLIC_APP_DESCRIPTION="${_NEXT_PUBLIC_APP_DESCRIPTION}"' >> .env
+      echo 'NEXT_PUBLIC_TWITTER_HANDLE="${_NEXT_PUBLIC_TWITTER_HANDLE}"' >> .env
+      echo 'NEXT_PUBLIC_TWITTER_URL="${_NEXT_PUBLIC_TWITTER_URL}"' >> .env
+      echo 'NEXT_PUBLIC_GITHUB_URL="${_NEXT_PUBLIC_GITHUB_URL}"' >> .env
+      echo 'MICROCMS_X_API_KEY="${_MICROCMS_X_API_KEY}"' >> .env
+      echo 'MICROCMS_URL="${_MICROCMS_URL}"' >> .env
+      echo 'GOOGLE_ANALYTICS_ID="${_GOOGLE_ANALYTICS_ID}"' >> .env
+      cat .env
   # Build the container image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/ssakihara-com:$COMMIT_SHA', '.']
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/$_SERVICE_NAME:$COMMIT_SHA', '.']
   # Push the image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/cloud-run-demo-image:$COMMIT_SHA']
@@ -12,10 +27,10 @@ steps:
       - 'deploy'
       - '$PROJECT_ID'
       - '--image'
-      - 'gcr.io/$PROJECT_ID/ssakihara-com:$COMMIT_SHA'
+      - 'gcr.io/$PROJECT_ID/$_SERVICE_NAME:$COMMIT_SHA'
       - '--region'
-      - 'asia-northeast1'
+      - '$_DEPLOY_REGION'
       - '--platform'
       - 'managed'
 images:
-  - 'gcr.io/$PROJECT_ID/ssakihara-com'
+  - 'gcr.io/$PROJECT_ID/$_SERVICE_NAME'
