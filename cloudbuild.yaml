@@ -14,7 +14,7 @@ steps:
       - '--image'
       - 'gcr.io/\$PROJECT_ID/ssakihara-com:\$COMMIT_SHA'
       - '--region'
-      - '$GC_REVISION'
+      - 'asia-northeast1'
       - '--platform'
       - 'managed'
 images:
