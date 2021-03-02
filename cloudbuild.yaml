@@ -13,13 +13,12 @@ steps:
         echo 'MICROCMS_X_API_KEY="${_MICROCMS_X_API_KEY}"' >> .env
         echo 'MICROCMS_URL="${_MICROCMS_URL}"' >> .env
         echo 'GOOGLE_ANALYTICS_ID="${_GOOGLE_ANALYTICS_ID}"' >> .env
-        cat .env
   # Build the container image
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/$_SERVICE_NAME:$COMMIT_SHA', '.']
   # Push the image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/cloud-run-demo-image:$COMMIT_SHA']
+    args: ['push', 'gcr.io/$PROJECT_ID/$__SERVICE_NAME:$COMMIT_SHA']
   # Deploy image to Cloud Run
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
