@@ -29,11 +29,13 @@
     "pm2": "^4.5.5",
     "puppeteer-core": "^8.0.0",
     "react": "17.0.1",
+    "react-copy-to-clipboard": "^5.0.3",
     "react-dom": "17.0.1",
     "react-dropzone": "^11.3.1",
     "tailwindcss": "^2.0.2"
   },
   "devDependencies": {
+    "@tailwindcss/custom-forms": "^0.2.1",
     "@testing-library/dom": "^7.29.4",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",

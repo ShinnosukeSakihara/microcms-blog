@@ -1,8 +1,12 @@
+import Text from 'components/DarkMode/Text'
 import Main from 'components/Layout/Main'
-import React, { useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { useDropzone } from 'react-dropzone'
 
 const App: React.FC = () => {
+  const [sql, setSql] = useState('')
+
   const onDrop = useCallback(async (acceptedFiles) => {
     acceptedFiles.map((file) => {
       const reader = new FileReader()
@@ -19,7 +23,7 @@ const App: React.FC = () => {
         const result = []
         data.map((str) => {
           if (str[0] === '"') {
-            result.push(str.replace('"', ''))
+            result.push(str.replace(/"/g, ''))
             return
           }
           str.split('\n').map((s) => {
@@ -27,15 +31,16 @@ const App: React.FC = () => {
           })
         })
         const arr = result
+        let sql = ''
         for (;;) {
           if (arr.length <= 0) {
             break
           }
           const insert = arr.splice(0, headers.split(',').length)
-          const values = insert.join(`","`)
-          const sql = `INSERT INTO ${table}(${headers}) VALUES("${values}");\n`
-          console.log(sql)
+          const values = insert.join(`", "`)
+          sql += `INSERT INTO ${table}(${headers}) VALUES("${values}");\n`
         }
+        setSql(sql)
       }
       reader.readAsText(file)
     })
@@ -44,22 +49,37 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Main class="px-2 bg-top">
+      <Main class="pb-10 pt-16 px-2 bg-top">
         <div {...getRootProps()}>
-          <input {...getInputProps()} />
-          <div className="container mx-auto pt-14 h-64">
-            <div className="wrapper flex justify-center">
+          <div className="container mx-auto h-64">
+            <div className="wrapper flex flex-col justify-center w-full">
+              <Text>File</Text>
+              <input {...getInputProps()} />
               {isDragActive ? (
-                <div className="border-light-blue-500 flex items-center justify-center w-96 h-64 border-4 border-dashed">
-                  <p>Drop the files here ...</p>
+                <div className="border-light-blue-500 flex items-center justify-center w-full h-64 border-4 border-dashed">
+                  <Text>Drop the files here ...</Text>
                 </div>
               ) : (
-                <div className="border-light-blue-500 flex items-center justify-center w-96 h-64 border-4 border-dashed">
-                  <p>Drag and drop your file</p>
+                <div className="border-light-blue-500 flex items-center justify-center w-full h-64 border-4 border-dashed">
+                  <Text>Drag and drop your file</Text>
                 </div>
               )}
             </div>
           </div>
+        </div>
+        <div className="container mt-16 mx-auto">
+          <label className="block">
+            <Text>SQL</Text>
+            <CopyToClipboard text={sql} onCopy={() => alert('Copyed')}>
+              <textarea
+                className="form-textarea block mt-1 w-full cursor-pointer"
+                rows={25}
+                placeholder="ここに変換されたSQL文が表示されます。クリックでコピーできます。"
+                value={sql}
+                readOnly
+              ></textarea>
+            </CopyToClipboard>
+          </label>
         </div>
       </Main>
     </>
