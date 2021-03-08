@@ -3,9 +3,24 @@ import Main from 'components/Layout/Main'
 import React, { useState, useCallback } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { useDropzone } from 'react-dropzone'
+import { store } from 'react-notifications-component'
 
 const App: React.FC = () => {
   const [sql, setSql] = useState('')
+
+  const addNotification = () => {
+    store.addNotification({
+      title: 'Copied to the clipboard',
+      message: 'クリップボードにコピーしました',
+      type: 'success',
+      insert: 'top',
+      container: 'top-right',
+      animationIn: ['animated', 'fadeIn'],
+      animationOut: ['animated', 'fadeOut'],
+      dismiss: { duration: 2000 },
+      dismissable: { click: true },
+    })
+  }
 
   const onDrop = useCallback(async (acceptedFiles) => {
     acceptedFiles.map((file) => {
@@ -70,7 +85,7 @@ const App: React.FC = () => {
         <div className="container mt-16 mx-auto">
           <label className="block">
             <Text>SQL</Text>
-            <CopyToClipboard text={sql} onCopy={() => alert('Copyed')}>
+            <CopyToClipboard text={sql} onCopy={() => addNotification()}>
               <textarea
                 className="form-textarea block mt-1 w-full cursor-pointer"
                 rows={25}

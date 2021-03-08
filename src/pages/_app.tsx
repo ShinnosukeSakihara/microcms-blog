@@ -7,6 +7,8 @@ import { useRouter } from 'next/router'
 import * as gtag from 'plugins/gtag'
 import React from 'react'
 import { useEffect } from 'react'
+import 'react-notifications-component/dist/theme.css'
+import ReactNotification from 'react-notifications-component'
 
 const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   const router = useRouter()
@@ -23,6 +25,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   return (
     <ThemeProvider attribute="class">
       <Layout>
+        <ReactNotification />
         <Component {...pageProps} />
       </Layout>
     </ThemeProvider>

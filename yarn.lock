@@ -8083,6 +8083,11 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
 
+react-notifications-component@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/react-notifications-component/-/react-notifications-component-3.0.4.tgz#dfee512d7cc77228874559a568ff9a38f56f96de"
+  integrity sha512-agG/lDRwZ16o2Jqt9BkdG5QHn6L/+WD2NYsuQ5C/MP8KjcLj+ddgUaa6PbjSGpHqfeBrE4LVkKh2L5tf4kdmjw==
+
 react-refresh@0.8.3:
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.8.3.tgz#721d4657672d400c5e3c75d063c4a85fb2d5d68f"
