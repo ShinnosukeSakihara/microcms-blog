@@ -32,26 +32,27 @@ const App: React.FC = () => {
         if (text instanceof ArrayBuffer) {
           return
         }
+
         const headers = text.split(/\r\n|\r|\n/)[1]
-        const contents = text.match(/((.*?)(\r\n|\r|\n)){2}([\s\S]*)/)[4] // 2行目以降を抽出
-        const data = contents.split(',')
-        const result = []
-        data.map((str) => {
-          if (str[0] === '"') {
-            result.push(str.replace(/"/g, ''))
+        const tmp = text.match(/((.*?)(\r\n|\r|\n)){2}([\s\S]*)/)[4] // 2行目以降を抽出
+        const data = tmp.split(',')
+        const list = []
+        data.map((item) => {
+          if (item[0] === '"') {
+            list.push(item.replace(/"/g, ''))
             return
           }
-          str.split('\n').map((s) => {
-            result.push(s)
+          item.split('\n').map((s) => {
+            list.push(s)
           })
         })
-        const arr = result
+        const tmpArray = list
         let sql = ''
-        for (;;) {
-          if (arr.length <= 0) {
+        for (let index = 0; list.length; index++) {
+          if (tmpArray.length <= 0) {
             break
           }
-          const insert = arr.splice(0, headers.split(',').length)
+          const insert = tmpArray.splice(0, headers.split(',').length)
           const values = insert.join(`", "`)
           sql += `INSERT INTO ${table}(${headers}) VALUES("${values}");\n`
         }
